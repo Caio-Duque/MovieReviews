@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "username": "jaumzito",
+    "email": "jaum@teste.com.br",
+    "password": "$2b$10$ALUfDbUgkPF1rDW2VjbDn.86Lr2ubj2bKlttUikjXucoUtVHegC8i"
+  },
+  {
+    "id": 2,
+    "username": "jaum2",
+    "email": "jaum2@teste.com.br",
+    "password": "$2b$10$fFXploFtrqZ.8BraesugueglhktE6kW0/1baXHGPQdu0dgmsMtIc."
+  },
+  {
+    "id": 3,
+    "username": "caio1",
+    "email": "caio1@gmail.com",
+    "password": "$2b$10$0klwyTIb64rd.W.lnPFSUOKKF12H/wkWz9b4UUbV3y50PGSX53xku"
+  }
+]

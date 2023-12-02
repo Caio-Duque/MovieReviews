@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "titulo": "Matrix",
+    "descricao": "Um hacker descobre a verdade sobre a realidade simulada em que vive.",
+    "imagemUrl": "https://i.pinimg.com/564x/a2/0b/e4/a20be4fbd8f1a710d8addfad59b78f30.jpg"
+  },
+  {
+    "id": 2,
+    "titulo": "Interestelar",
+    "descricao": "Uma equipe de exploradores viaja através de um buraco de minhoca em busca de um novo lar para a humanidade.",
+    "imagemUrl": "https://i.pinimg.com/736x/1c/63/d2/1c63d274fa70ffaa88b4f9eba86f0e0e.jpg"
+  },
+  {
+    "id": 3,
+    "titulo": "O Senhor dos Anéis: A Sociedade do Anel",
+    "descricao": "Um hobbit chamado Frodo é encarregado de destruir um anel mágico para evitar que caia nas mãos do mal.",
+    "imagemUrl": "https://i.pinimg.com/564x/c7/89/fd/c789fd292e75beeb861ee4059317f46a.jpg"
+  },
+  {
+    "id": 4,
+    "titulo": "Blade Runner 2049",
+    "descricao": "Um novo blade runner, K, descobre um segredo há muito tempo enterrado que pode desencadear o caos na sociedade.",
+    "imagemUrl": "https://i.pinimg.com/564x/07/c2/31/07c231f2775f4ece93b1af53e5009298.jpg"
+  },
+  {
+    "id": 5,
+    "titulo": "A Origem",
+    "descricao": "Um ladrão de ideias é contratado para realizar o inverso: plantar uma ideia na mente de alguém.",
+    "imagemUrl": "https://i.pinimg.com/564x/3c/1d/3f/3c1d3f803b633f39006e8a45171e1f89.jpg"
+  }
+]
