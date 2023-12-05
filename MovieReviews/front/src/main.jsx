@@ -8,7 +8,8 @@ import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './login/Login.jsx';
 import CreateUser from './login/CreateUser.jsx';
-import ListaFilmes from './filme/ListaFilmes.jsx'; // Renomeado para refletir a mudança
+import ListaFilmes from './filme/ListaFilmes.jsx';
+import MovieReviews from './filme/MovieReviews';
 
 const router = createBrowserRouter([
     {
@@ -26,12 +27,16 @@ const router = createBrowserRouter([
         ]
     },
     {
-        path: 'filmes', // Alterado para 'filmes'
+        path: 'filmes',
         element: <ListaFilmes />
     },
     {
-        path: 'filmes/:titulo', // Alterado para 'filmes'
+        path: 'filmes/:titulo',
         element: <ListaFilmes />
+    },
+    {
+        path: 'filmes/:id/reviews',
+        element: <MovieReviews />
     }
 ]);
 

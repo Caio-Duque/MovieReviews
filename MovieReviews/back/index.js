@@ -63,18 +63,24 @@ app.get('/filmes', verificaToken, (req, res) => {
     return res.json(filmes);
 });
 
-app.get('/filmes/:titulo', verificaToken, (req, res) => {
+//permite que aceite tanto o ID quanto o título como parâmetro.
+app.get('/filmes/:param', verificaToken, (req, res) => {
     const jsonPath = path.join(__dirname, '.', 'db', 'filmes.json');
     const filmes = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
 
-    const params = req.params;
-    for (let filme of filmes) {
-        if (params.titulo.toUpperCase() === filme.titulo.toUpperCase()) {
-            return res.json(filme);
-        }
+    const param = req.params.param;
+
+    const filmeEncontrado = filmes.find(filme =>
+        filme.id == param || filme.titulo.toUpperCase() === param.toUpperCase()
+    );
+
+    if (filmeEncontrado) {
+        return res.json(filmeEncontrado);
     }
+
     return res.status(403).send(`Filme Não Encontrado!`);
 });
+
 
 function verificaToken(req, res, next) {
     const authHeaders = req.headers['authorization'];
@@ -87,3 +93,37 @@ function verificaToken(req, res, next) {
         next();
     });
 }
+
+const Avaliacao = require('./model/Avaliacao');
+
+
+app.get('/avaliacoes/:filmeId', verificaToken, (req, res) => {
+    const jsonPath = path.join(__dirname, '.', 'db', 'avaliacoes.json');
+    const avaliacoes = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
+
+    const filmeId = req.params.filmeId;
+    const avaliacoesDoFilme = avaliacoes.filter(avaliacao => avaliacao.filmeId == filmeId);
+
+    res.json(avaliacoesDoFilme);
+});
+
+app.post('/avaliacoes', verificaToken, (req, res) => {
+    const jsonPath = path.join(__dirname, '.', 'db', 'avaliacoes.json');
+    const avaliacoes = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
+
+    const { userId } = req; // Obtendo userId do token
+    const { filmeId, nota, comentario } = req.body;
+
+    const novaAvaliacao = {
+        id: avaliacoes.length + 1,
+        userId,
+        filmeId,
+        nota,
+        comentario,
+    };
+
+    avaliacoes.push(novaAvaliacao);
+    fs.writeFileSync(jsonPath, JSON.stringify(avaliacoes, null, 2));
+
+    res.json({ message: 'Avaliação criada com sucesso!', avaliacao: novaAvaliacao });
+});

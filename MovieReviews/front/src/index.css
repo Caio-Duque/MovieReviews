@@ -14,7 +14,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #b1afaf;
+  background-color: #a50303;
   cursor: pointer;
   transition: border-color 0.25s;
   width: 20%;
@@ -27,15 +27,15 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: #cc0000;
+    background-color: #1a1a1a;
   }
   a:hover {
-    color: #747bff;
+    color: #b80606;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: #cc0000;
   }
 }

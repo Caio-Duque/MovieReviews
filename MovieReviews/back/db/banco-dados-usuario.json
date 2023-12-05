@@ -16,5 +16,11 @@
     "username": "caio1",
     "email": "caio1@gmail.com",
     "password": "$2b$10$0klwyTIb64rd.W.lnPFSUOKKF12H/wkWz9b4UUbV3y50PGSX53xku"
+  },
+  {
+    "id": 4,
+    "username": "teste",
+    "email": "caio2@gmail.com",
+    "password": "$2b$10$VcgZcu15dftQ8PaIcUUsSeDbyR4YFTxh4WrIV1aHFcXKXMZnolf16"
   }
 ]
