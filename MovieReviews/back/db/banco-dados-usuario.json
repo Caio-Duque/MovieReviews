@@ -34,5 +34,11 @@
     "username": "novo user ",
     "email": "caioteste@teste.com",
     "password": "$2b$10$cQjHluaVXoqwGr/CHrMQ7e0GFDIO16ipKrk/hYtYGeMbtgdgPmYJ."
+  },
+  {
+    "id": 7,
+    "username": "a",
+    "email": "ab@teste",
+    "password": "$2b$10$BpfPzejTCjCnJQXnN5lcxuCVMMMJlkIIFsLLLNbz98Qks5gt4r0ea"
   }
 ]

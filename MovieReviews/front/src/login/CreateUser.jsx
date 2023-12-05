@@ -14,7 +14,7 @@ export default function CreateUser(){
     const schema = yup.object({
         username: yup.string().required('Usuário obrigatório'),
         email: yup.string().email('Email inválido').required('Email obrigatório'),
-        password: yup.string().min(2,'Senha com no mínimo 2 caracteres').required(),
+        password: yup.string().min(4,'Senha com no mínimo 4 caracteres').required(),
         passwordConf: yup.string().required('Confirme a senha').oneOf([yup.ref('password')], 'As senhas devem coincidir!'),
     });
 
