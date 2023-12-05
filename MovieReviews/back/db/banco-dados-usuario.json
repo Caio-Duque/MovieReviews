@@ -28,5 +28,11 @@
     "username": "jãozin",
     "email": "jaumzin@teste.com",
     "password": "$2b$10$lPjB3qZKGPBqOusycyk3DOZdFHr9H4.huel7ma.Avms7wOvesivMW"
+  },
+  {
+    "id": 6,
+    "username": "novo user ",
+    "email": "caioteste@teste.com",
+    "password": "$2b$10$cQjHluaVXoqwGr/CHrMQ7e0GFDIO16ipKrk/hYtYGeMbtgdgPmYJ."
   }
 ]

@@ -136,3 +136,76 @@ app.post('/avaliacoes', verificaToken, async (req, res) => {
 
     res.send('Avaliação cadastrada com sucesso.');
 });
+
+
+app.put('/avaliacoes/:avaliacaoId', verificaToken, async (req, res) => {
+    const { nota, comentario } = req.body;
+    const { avaliacaoId } = req.params;
+    const token = req.headers['authorization'].split(' ')[1];
+    const decoded = jwt.verify(token, process.env.TOKEN);
+
+    const jsonPathAvaliacoes = path.join(__dirname, '.', 'db', 'avaliacoes.json');
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+
+    const avaliacoes = JSON.parse(fs.readFileSync(jsonPathAvaliacoes, { encoding: 'utf8', flag: 'r' }));
+    const usuarios = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    const usuario = usuarios.find((user) => user.id === decoded.id);
+
+    if (!usuario) {
+        return res.status(404).send('Usuário não encontrado.');
+    }
+
+    const avaliacaoIndex = avaliacoes.findIndex(avaliacao => avaliacao.id == avaliacaoId);
+
+    if (avaliacaoIndex === -1) {
+        return res.status(404).send('Avaliação não encontrada.');
+    }
+
+    if (avaliacoes[avaliacaoIndex].userId !== decoded.id) {
+        return res.status(403).send('Você não tem permissão para editar esta avaliação.');
+    }
+
+    avaliacoes[avaliacaoIndex].nota = nota;
+    avaliacoes[avaliacaoIndex].comentario = comentario;
+
+    fs.writeFileSync(jsonPathAvaliacoes, JSON.stringify(avaliacoes, null, 2));
+
+    res.send('Avaliação atualizada com sucesso.');
+});
+
+
+
+app.delete('/avaliacoes/:avaliacaoId', verificaToken, (req, res) => {
+    const { avaliacaoId } = req.params;
+    const token = req.headers['authorization'].split(' ')[1];
+    const decoded = jwt.verify(token, process.env.TOKEN);
+
+    const jsonPathAvaliacoes = path.join(__dirname, '.', 'db', 'avaliacoes.json');
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+
+    const avaliacoes = JSON.parse(fs.readFileSync(jsonPathAvaliacoes, { encoding: 'utf8', flag: 'r' }));
+    const usuarios = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    const usuario = usuarios.find((user) => user.id === decoded.id);
+
+    if (!usuario) {
+        return res.status(404).send('Usuário não encontrado.');
+    }
+
+    const avaliacaoIndex = avaliacoes.findIndex(avaliacao => avaliacao.id == avaliacaoId);
+
+    if (avaliacaoIndex === -1) {
+        return res.status(404).send('Avaliação não encontrada.');
+    }
+
+    if (avaliacoes[avaliacaoIndex].userId !== decoded.id) {
+        return res.status(403).send('Você não tem permissão para excluir esta avaliação.');
+    }
+
+    avaliacoes.splice(avaliacaoIndex, 1);
+
+    fs.writeFileSync(jsonPathAvaliacoes, JSON.stringify(avaliacoes, null, 2));
+
+    res.send('Avaliação excluída com sucesso.');
+});

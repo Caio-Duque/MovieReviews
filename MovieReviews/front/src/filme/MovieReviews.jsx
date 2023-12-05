@@ -9,6 +9,9 @@ export default function MovieReviews() {
     const [loading, setLoading] = useState(true);
     const [nota, setNota] = useState('');
     const [comentario, setComentario] = useState('');
+    const [currentUser, setCurrentUser] = useState(null);
+    const [userReview, setUserReview] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
 
     const fetchAvaliacoes = async () => {
         try {
@@ -18,6 +21,9 @@ export default function MovieReviews() {
             });
 
             setAvaliacoes(response.data);
+
+            const userAvaliacao = response.data.find(avaliacao => avaliacao.userId === currentUser);
+            setUserReview(userAvaliacao);
         } catch (error) {
             console.error('Error fetching movie reviews:', error);
         }
@@ -49,13 +55,25 @@ export default function MovieReviews() {
         }
 
         fetchMovieDetails();
-    }, [id]);
+    }, [id, currentUser]);
+
+    useEffect(() => {
+        const token = sessionStorage.getItem('token');
+        const userId = JSON.parse(atob(token.split('.')[1])).id;
+        setCurrentUser(userId);
+    }, []);
 
     const handleSubmitAvaliacao = async (e) => {
         e.preventDefault();
 
         try {
             const token = sessionStorage.getItem('token');
+
+            if (userReview) {
+                console.log('Usuário já avaliou este filme.');
+                return;
+            }
+
             await axios.post(
                 `http://localhost:3000/avaliacoes`,
                 {
@@ -68,13 +86,62 @@ export default function MovieReviews() {
                 }
             );
 
-            // após cadastrar a avaliação, recarrega as avaliações
             fetchAvaliacoes();
-            // limpa os campos do formulário
             setNota('');
             setComentario('');
         } catch (error) {
             console.error('Error submitting review:', error);
+        }
+    };
+
+    const handleEditAvaliacao = () => {
+        setIsEditing(true);
+        setNota(userReview.nota);
+        setComentario(userReview.comentario);
+    };
+
+    const handleCancelEdit = () => {
+        setIsEditing(false);
+        setNota('');
+        setComentario('');
+    };
+
+    const handleUpdateAvaliacao = async () => {
+        try {
+            const token = sessionStorage.getItem('token');
+            await axios.put(
+                `http://localhost:3000/avaliacoes/${userReview.id}`,
+                {
+                    nota,
+                    comentario,
+                },
+                {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                }
+            );
+
+            fetchAvaliacoes();
+            setIsEditing(false);
+            setNota('');
+            setComentario('');
+        } catch (error) {
+            console.error('Error updating review:', error);
+        }
+    };
+
+    const handleDeleteAvaliacao = async () => {
+        try {
+            const token = sessionStorage.getItem('token');
+            await axios.delete(`http://localhost:3000/avaliacoes/${userReview.id}`, {
+                headers: { 'Authorization': `Bearer ${token}` },
+            });
+
+            fetchAvaliacoes();
+            setIsEditing(false);
+            setNota('');
+            setComentario('');
+        } catch (error) {
+            console.error('Error deleting review:', error);
         }
     };
 
@@ -98,32 +165,72 @@ export default function MovieReviews() {
                     <p>Usuário: {avaliacao.usuario}</p>
                     <p>Nota: {avaliacao.nota}</p>
                     <p>Comentário: {avaliacao.comentario}</p>
+
+                    {currentUser === avaliacao.userId && (
+                        <>
+                            <button onClick={handleEditAvaliacao}>Editar Avaliação</button>
+                            <button onClick={handleDeleteAvaliacao}>Excluir Avaliação</button>
+                        </>
+                    )}
                 </div>
             ))}
 
-            <h3>Deixe sua avaliação</h3>
-            <form onSubmit={handleSubmitAvaliacao}>
-                <label>
-                    Nota:
-                    <input
-                        type="number"
-                        min="1"
-                        max="5"
-                        value={nota}
-                        onChange={(e) => setNota(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>
-                    Comentário:
-                    <textarea
-                        value={comentario}
-                        onChange={(e) => setComentario(e.target.value)}
-                    />
-                </label>
-                <br />
-                <button type="submit">Enviar Avaliação</button>
-            </form>
+            {!userReview && !isEditing && (
+                <div>
+                    <h3>Deixe sua avaliação</h3>
+                    <form onSubmit={handleSubmitAvaliacao}>
+                        <label>
+                            Nota:
+                            <input
+                                type="number"
+                                min="1"
+                                max="5"
+                                value={nota}
+                                onChange={(e) => setNota(e.target.value)}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Comentário:
+                            <textarea
+                                value={comentario}
+                                onChange={(e) => setComentario(e.target.value)}
+                            />
+                        </label>
+                        <br />
+                        <button type="submit">Enviar Avaliação</button>
+                    </form>
+                </div>
+            )}
+
+            {isEditing && (
+                <div>
+                    <h3>Editando sua avaliação</h3>
+                    <form onSubmit={handleUpdateAvaliacao}>
+                        <label>
+                            Nota:
+                            <input
+                                type="number"
+                                min="1"
+                                max="5"
+                                value={nota}
+                                onChange={(e) => setNota(e.target.value)}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Comentário:
+                            <textarea
+                                value={comentario}
+                                onChange={(e) => setComentario(e.target.value)}
+                            />
+                        </label>
+                        <br />
+                        <button type="button" onClick={handleCancelEdit}>Cancelar Edição</button>
+                        <button type="submit">Atualizar Avaliação</button>
+                    </form>
+                </div>
+            )}
         </div>
     );
 }
