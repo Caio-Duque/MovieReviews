@@ -22,5 +22,11 @@
     "username": "teste",
     "email": "caio2@gmail.com",
     "password": "$2b$10$VcgZcu15dftQ8PaIcUUsSeDbyR4YFTxh4WrIV1aHFcXKXMZnolf16"
+  },
+  {
+    "id": 5,
+    "username": "jãozin",
+    "email": "jaumzin@teste.com",
+    "password": "$2b$10$lPjB3qZKGPBqOusycyk3DOZdFHr9H4.huel7ma.Avms7wOvesivMW"
   }
 ]

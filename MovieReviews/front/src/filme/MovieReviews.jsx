@@ -40,7 +40,6 @@ export default function MovieReviews() {
                 }
 
                 setFilme(response.data);
-                // Chama fetchAvaliacoes após carregar os detalhes do filme
                 fetchAvaliacoes();
             } catch (error) {
                 console.error('Error fetching movie details:', error);
@@ -69,9 +68,9 @@ export default function MovieReviews() {
                 }
             );
 
-            // Após cadastrar a avaliação, recarrega as avaliações
+            // após cadastrar a avaliação, recarrega as avaliações
             fetchAvaliacoes();
-            // Limpa os campos do formulário
+            // limpa os campos do formulário
             setNota('');
             setComentario('');
         } catch (error) {
@@ -96,6 +95,7 @@ export default function MovieReviews() {
             <h3>Avaliações cadastradas</h3>
             {avaliacoes.map((avaliacao) => (
                 <div key={avaliacao.id}>
+                    <p>Usuário: {avaliacao.usuario}</p>
                     <p>Nota: {avaliacao.nota}</p>
                     <p>Comentário: {avaliacao.comentario}</p>
                 </div>

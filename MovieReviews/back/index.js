@@ -63,7 +63,7 @@ app.get('/filmes', verificaToken, (req, res) => {
     return res.json(filmes);
 });
 
-//permite que aceite tanto o ID quanto o título como parâmetro.
+// permite que aceite tanto o ID quanto o título como parâmetro.
 app.get('/filmes/:param', verificaToken, (req, res) => {
     const jsonPath = path.join(__dirname, '.', 'db', 'filmes.json');
     const filmes = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
@@ -81,7 +81,6 @@ app.get('/filmes/:param', verificaToken, (req, res) => {
     return res.status(403).send(`Filme Não Encontrado!`);
 });
 
-
 function verificaToken(req, res, next) {
     const authHeaders = req.headers['authorization'];
     const token = authHeaders && authHeaders.split(' ')[1];
@@ -96,7 +95,6 @@ function verificaToken(req, res, next) {
 
 const Avaliacao = require('./model/Avaliacao');
 
-
 app.get('/avaliacoes/:filmeId', verificaToken, (req, res) => {
     const jsonPath = path.join(__dirname, '.', 'db', 'avaliacoes.json');
     const avaliacoes = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
@@ -107,23 +105,34 @@ app.get('/avaliacoes/:filmeId', verificaToken, (req, res) => {
     res.json(avaliacoesDoFilme);
 });
 
-app.post('/avaliacoes', verificaToken, (req, res) => {
-    const jsonPath = path.join(__dirname, '.', 'db', 'avaliacoes.json');
-    const avaliacoes = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
-
-    const { userId } = req; // Obtendo userId do token
+app.post('/avaliacoes', verificaToken, async (req, res) => {
     const { filmeId, nota, comentario } = req.body;
+    const token = req.headers['authorization'].split(' ')[1];
+    const decoded = jwt.verify(token, process.env.TOKEN);
 
-    const novaAvaliacao = {
-        id: avaliacoes.length + 1,
-        userId,
+    const jsonPathAvaliacoes = path.join(__dirname, '.', 'db', 'avaliacoes.json');
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+
+    const avaliacoes = JSON.parse(fs.readFileSync(jsonPathAvaliacoes, { encoding: 'utf8', flag: 'r' }));
+    const usuarios = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    const usuario = usuarios.find((user) => user.id === decoded.id);
+
+    if (!usuario) {
+        return res.status(404).send('Usuário não encontrado.');
+    }
+
+    const novaAvaliacao = new Avaliacao(
+        avaliacoes.length + 1,
+        decoded.id,
         filmeId,
         nota,
         comentario,
-    };
+        usuario.username 
+    );
 
     avaliacoes.push(novaAvaliacao);
-    fs.writeFileSync(jsonPath, JSON.stringify(avaliacoes, null, 2));
+    fs.writeFileSync(jsonPathAvaliacoes, JSON.stringify(avaliacoes, null, 2));
 
-    res.json({ message: 'Avaliação criada com sucesso!', avaliacao: novaAvaliacao });
+    res.send('Avaliação cadastrada com sucesso.');
 });
