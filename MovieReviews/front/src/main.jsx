@@ -10,6 +10,7 @@ import Login from './login/Login.jsx';
 import CreateUser from './login/CreateUser.jsx';
 import ListaFilmes from './filme/ListaFilmes.jsx';
 import MovieReviews from './filme/MovieReviews';
+import MyProfile from './perfil/MyProfile';
 
 const router = createBrowserRouter([
     {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
     {
         path: 'filmes/:id/reviews',
         element: <MovieReviews />
+    },
+    {
+        path: 'meu-perfil', 
+        element: <MyProfile />
     }
 ]);
 

@@ -63,7 +63,6 @@ app.get('/filmes', verificaToken, (req, res) => {
     return res.json(filmes);
 });
 
-// permite que aceite tanto o ID quanto o título como parâmetro.
 app.get('/filmes/:param', verificaToken, (req, res) => {
     const jsonPath = path.join(__dirname, '.', 'db', 'filmes.json');
     const filmes = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
@@ -137,7 +136,6 @@ app.post('/avaliacoes', verificaToken, async (req, res) => {
     res.send('Avaliação cadastrada com sucesso.');
 });
 
-
 app.put('/avaliacoes/:avaliacaoId', verificaToken, async (req, res) => {
     const { nota, comentario } = req.body;
     const { avaliacaoId } = req.params;
@@ -174,8 +172,6 @@ app.put('/avaliacoes/:avaliacaoId', verificaToken, async (req, res) => {
     res.send('Avaliação atualizada com sucesso.');
 });
 
-
-
 app.delete('/avaliacoes/:avaliacaoId', verificaToken, (req, res) => {
     const { avaliacaoId } = req.params;
     const token = req.headers['authorization'].split(' ')[1];
@@ -208,4 +204,61 @@ app.delete('/avaliacoes/:avaliacaoId', verificaToken, (req, res) => {
     fs.writeFileSync(jsonPathAvaliacoes, JSON.stringify(avaliacoes, null, 2));
 
     res.send('Avaliação excluída com sucesso.');
+});
+
+app.put('/update-email', verificaToken, async (req, res) => {
+    const { newEmail, password } = req.body;
+    const token = req.headers['authorization'].split(' ')[1];
+    const decoded = jwt.verify(token, process.env.TOKEN);
+
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuarios = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    const usuarioIndex = usuarios.findIndex((user) => user.id === decoded.id);
+
+    if (usuarioIndex === -1) {
+        return res.status(404).send('Usuário não encontrado.');
+    }
+
+    const passwordValidado = await bcrypt.compare(password, usuarios[usuarioIndex].password);
+
+    if (!passwordValidado) {
+        return res.status(403).send('Senha atual incorreta.');
+    }
+
+    usuarios[usuarioIndex].email = newEmail;
+
+    fs.writeFileSync(jsonPathUsuarios, JSON.stringify(usuarios, null, 2));
+
+    res.send('Email atualizado com sucesso.');
+});
+
+app.put('/update-password', verificaToken, async (req, res) => {
+    const { newPassword, password } = req.body;
+    const token = req.headers['authorization'].split(' ')[1];
+    const decoded = jwt.verify(token, process.env.TOKEN);
+
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuarios = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    const usuarioIndex = usuarios.findIndex((user) => user.id === decoded.id);
+
+    if (usuarioIndex === -1) {
+        return res.status(404).send('Usuário não encontrado.');
+    }
+
+    const passwordValidado = await bcrypt.compare(password, usuarios[usuarioIndex].password);
+
+    if (!passwordValidado) {
+        return res.status(403).send('Senha atual incorreta.');
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const newPasswordCrypt = await bcrypt.hash(newPassword, salt);
+
+    usuarios[usuarioIndex].password = newPasswordCrypt;
+
+    fs.writeFileSync(jsonPathUsuarios, JSON.stringify(usuarios, null, 2));
+
+    res.send('Senha atualizada com sucesso.');
 });

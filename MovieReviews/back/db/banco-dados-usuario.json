@@ -40,5 +40,17 @@
     "username": "a",
     "email": "ab@teste",
     "password": "$2b$10$BpfPzejTCjCnJQXnN5lcxuCVMMMJlkIIFsLLLNbz98Qks5gt4r0ea"
+  },
+  {
+    "id": 8,
+    "username": "a",
+    "email": "abc@teste",
+    "password": "$2b$10$1qeUeAvNw9f.07h/9CMt4.yZKzq4KJDxx69K4LC56l2VAia8hs.qi"
+  },
+  {
+    "id": 9,
+    "username": "conta 0712",
+    "email": "caio1222334@gmail.com",
+    "password": "$2b$10$NT3ZI3PYlMv0dGVdtzwsK.33adSud.WQEcYPO/lYpis5TUXutk5/6"
   }
 ]
