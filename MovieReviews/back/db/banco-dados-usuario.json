@@ -58,5 +58,11 @@
     "username": "Vitoria Maria",
     "email": "teste8@email.com",
     "password": "$2b$10$njdBVo3FgVI3bjMa3ErOReeF070QRKn/WU0k3DxSfruRY0JgNJr1q"
+  },
+  {
+    "id": 11,
+    "username": "ultimo usuario",
+    "email": "teste@testeee",
+    "password": "$2b$10$i.R8IYevxnzGlvfo6xX7QOIvNOVnXQSvRwX9jQgPp/RfnQ224zYJC"
   }
 ]
