@@ -1,0 +1,35 @@
+.filme-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #a50303;
+    margin: 10px;
+    border-radius: 5px;
+}
+  
+.filme-imagem {
+    width: 150px; /* Ajuste o tamanho conforme necessário */
+    height: auto;
+    margin-right: 20px;
+}
+  
+.filme-info {
+    flex: 1;
+}
+  
+.filme-info h2 {
+    margin-bottom: 10px;
+    text-align: left;
+    margin-left: 10px;
+}
+  
+.filme-info p {
+    margin-bottom: 0;
+    text-align: left;
+    margin-left: 10px;
+}
+
+a {
+    color: #cc0000;
+    text-decoration: none;
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import '../styles/MovieReviews.css';
 
 export default function MovieReviews() {
     const { id } = useParams();
@@ -22,9 +23,7 @@ export default function MovieReviews() {
 
             setAvaliacoes(response.data);
 
-            const userAvaliacao = response.data.find(
-                (avaliacao) => avaliacao.userId === currentUser && avaliacao.filmeId === id
-            );
+            const userAvaliacao = response.data.find(avaliacao => avaliacao.userId === currentUser);
             setUserReview(userAvaliacao);
         } catch (error) {
             console.error('Erro ao obter avaliações do filme:', error);
@@ -157,6 +156,19 @@ export default function MovieReviews() {
 
     return (
         <div>
+            <nav>
+                <ul>
+                    <li>
+                        <Link to={'/'}>Login</Link>
+                    </li>
+                    <li>
+                        <Link to={'/filmes'}>Filmes</Link>
+                    </li>
+                    <li>
+                        <Link to={'/meu-perfil'}>Meu Perfil</Link>
+                    </li>
+                </ul>
+            </nav>
             <h2>{filme.titulo}</h2>
             <p>{filme.descricao}</p>
             <img src={filme.imagemUrl} alt={filme.titulo} />
@@ -164,10 +176,11 @@ export default function MovieReviews() {
             <h3>Avaliações cadastradas</h3>
             {avaliacoes.map((avaliacao) => (
                 <div key={avaliacao.id}>
-                    <p>Usuário: {avaliacao.usuario}</p>
-                    <p>Nota: {avaliacao.nota}</p>
-                    <p>Comentário: {avaliacao.comentario}</p>
-
+                    <div className='reviews'>
+                        <p>Usuário: {avaliacao.usuario}</p>
+                        <p>Nota: {avaliacao.nota}</p>
+                        <p>Comentário: {avaliacao.comentario}</p>
+                    </div>
                     {currentUser === avaliacao.userId && (
                         <>
                             <button onClick={handleEditAvaliacao}>Editar Avaliação</button>

@@ -3,6 +3,7 @@ import Filme from "./Filme";
 import '../styles/ListaFilmes.css';
 import axios from 'axios';
 import { useForm } from "react-hook-form";
+import { Link } from 'react-router-dom';
 
 export default function ListaFilmes() {
 
@@ -44,6 +45,16 @@ export default function ListaFilmes() {
 
     return (
         <>
+            <nav>
+                <ul>
+                    <li>
+                        <Link to={'/'}>Login</Link>
+                    </li>
+                    <li>
+                        <Link to={'/meu-perfil'}>Meu Perfil</Link>
+                    </li>
+                </ul>
+            </nav>
             <h2>Busque o filme pelo título ou deixe vazio para retornar todos.</h2>
             <form onSubmit={handleSubmit(submit)} noValidate>
 

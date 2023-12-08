@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
+import '../styles/MyProfile.css';
+import { Link } from 'react-router-dom';
 
 export default function MyProfile() {
     const [msg, setMsg] = useState('');
@@ -76,6 +78,16 @@ export default function MyProfile() {
 
     return (
         <div>
+            <nav>
+                <ul>
+                    <li>
+                        <Link to={'/'}>Login</Link>
+                    </li>
+                    <li>
+                        <Link to={'/filmes'}>Filmes</Link>
+                    </li>
+                </ul>
+            </nav>
             <h2>Meu Perfil</h2>
 
             {updateSuccess && <p style={{ color: 'green' }}>{msg}</p>}
