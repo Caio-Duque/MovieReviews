@@ -1,56 +1,14 @@
 [
   {
     "id": 1,
-    "username": "jaumzito",
-    "email": "jaum@teste.com.br",
-    "password": "$2b$10$ALUfDbUgkPF1rDW2VjbDn.86Lr2ubj2bKlttUikjXucoUtVHegC8i"
+    "username": "Caio Duque",
+    "email": "caio1@gmail.com",
+    "password": "$2b$10$.xi32d9ThmoZlBrDWz3tmudBNYurqE572WHEI7QnGq1wlXKrN4zI."
   },
   {
     "id": 2,
-    "username": "jaum2",
-    "email": "jaum2@teste.com.br",
-    "password": "$2b$10$fFXploFtrqZ.8BraesugueglhktE6kW0/1baXHGPQdu0dgmsMtIc."
-  },
-  {
-    "id": 3,
-    "username": "caio1",
-    "email": "caio1@gmail.com",
-    "password": "$2b$10$0klwyTIb64rd.W.lnPFSUOKKF12H/wkWz9b4UUbV3y50PGSX53xku"
-  },
-  {
-    "id": 4,
-    "username": "teste",
-    "email": "caio2@gmail.com",
-    "password": "$2b$10$VcgZcu15dftQ8PaIcUUsSeDbyR4YFTxh4WrIV1aHFcXKXMZnolf16"
-  },
-  {
-    "id": 5,
-    "username": "jãozin",
-    "email": "jaumzin@teste.com",
-    "password": "$2b$10$lPjB3qZKGPBqOusycyk3DOZdFHr9H4.huel7ma.Avms7wOvesivMW"
-  },
-  {
-    "id": 6,
-    "username": "novo user ",
-    "email": "caioteste@teste.com",
-    "password": "$2b$10$cQjHluaVXoqwGr/CHrMQ7e0GFDIO16ipKrk/hYtYGeMbtgdgPmYJ."
-  },
-  {
-    "id": 7,
-    "username": "a",
-    "email": "ab@teste",
-    "password": "$2b$10$BpfPzejTCjCnJQXnN5lcxuCVMMMJlkIIFsLLLNbz98Qks5gt4r0ea"
-  },
-  {
-    "id": 8,
-    "username": "a",
-    "email": "abc@teste",
-    "password": "$2b$10$1qeUeAvNw9f.07h/9CMt4.yZKzq4KJDxx69K4LC56l2VAia8hs.qi"
-  },
-  {
-    "id": 9,
-    "username": "conta 0712",
-    "email": "caio1222334@gmail.com",
-    "password": "$2b$10$NT3ZI3PYlMv0dGVdtzwsK.33adSud.WQEcYPO/lYpis5TUXutk5/6"
+    "username": "Joaozinho das neves",
+    "email": "joao@teste.com",
+    "password": "$2b$10$Z28o2It/nhBPLNa3utfBn.zUBnvjkW3OYQqm0QS4J3n5tSXuL4HZ6"
   }
 ]

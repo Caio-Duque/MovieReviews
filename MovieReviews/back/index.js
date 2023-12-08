@@ -262,3 +262,36 @@ app.put('/update-password', verificaToken, async (req, res) => {
 
     res.send('Senha atualizada com sucesso.');
 });
+
+app.post('/validate-password', verificaToken, async (req, res) => {
+    try {
+        const { password } = req.body;
+        const token = req.headers['authorization'].split(' ')[1];
+        const decoded = jwt.verify(token, process.env.TOKEN);
+
+        console.log('Decoded ID:', decoded.id);
+
+        const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+        const usuarios = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+        const usuario = usuarios.find((user) => user.id === decoded.id);
+
+        console.log('Usuário encontrado:', usuario);
+
+        if (!usuario) {
+            return res.status(404).send('Usuário não encontrado.');
+        }
+
+        const passwordValidado = await bcrypt.compare(password, usuario.password);
+
+        if (!passwordValidado) {
+            return res.status(403).send('Senha incorreta.');
+        }
+
+        res.send('Senha validada com sucesso.');
+    } catch (error) {
+        console.error('Erro na rota validate-password:', error);
+        res.status(500).send('Erro interno do servidor.');
+    }
+});
+

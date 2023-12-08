@@ -1,34 +1,18 @@
 [
   {
     "id": 1,
-    "userId": 3,
+    "userId": 1,
     "filmeId": "1",
-    "nota": "4",
-    "comentario": "teste atualização incluir nome do usuário",
-    "usuario": "caio1"
+    "nota": "3",
+    "comentario": "curti mais ainda! serio mesmo! de verdade!",
+    "usuario": "Caio Duque"
   },
   {
     "id": 2,
-    "userId": 5,
-    "filmeId": "3",
-    "nota": "1",
-    "comentario": "jaozin dormiu",
-    "usuario": "jãozin"
-  },
-  {
-    "id": 3,
-    "userId": 6,
+    "userId": 2,
     "filmeId": "1",
     "nota": "5",
-    "comentario": "ok",
-    "usuario": "novo user "
-  },
-  {
-    "id": 4,
-    "userId": 6,
-    "filmeId": "5",
-    "nota": "4",
-    "comentario": "foi edt",
-    "usuario": "novo user "
+    "comentario": "teste123",
+    "usuario": "Joaozinho das neves"
   }
 ]

@@ -22,10 +22,12 @@ export default function MovieReviews() {
 
             setAvaliacoes(response.data);
 
-            const userAvaliacao = response.data.find(avaliacao => avaliacao.userId === currentUser);
+            const userAvaliacao = response.data.find(
+                (avaliacao) => avaliacao.userId === currentUser && avaliacao.filmeId === id
+            );
             setUserReview(userAvaliacao);
         } catch (error) {
-            console.error('Error fetching movie reviews:', error);
+            console.error('Erro ao obter avaliações do filme:', error);
         }
     };
 
@@ -48,7 +50,7 @@ export default function MovieReviews() {
                 setFilme(response.data);
                 fetchAvaliacoes();
             } catch (error) {
-                console.error('Error fetching movie details:', error);
+                console.error('Erro ao obter detalhes do filme:', error);
             } finally {
                 setLoading(false);
             }
@@ -90,7 +92,7 @@ export default function MovieReviews() {
             setNota('');
             setComentario('');
         } catch (error) {
-            console.error('Error submitting review:', error);
+            console.error('Erro ao enviar avaliação:', error);
         }
     };
 
@@ -125,7 +127,7 @@ export default function MovieReviews() {
             setNota('');
             setComentario('');
         } catch (error) {
-            console.error('Error updating review:', error);
+            console.error('Erro ao atualizar avaliação:', error);
         }
     };
 
@@ -141,7 +143,7 @@ export default function MovieReviews() {
             setNota('');
             setComentario('');
         } catch (error) {
-            console.error('Error deleting review:', error);
+            console.error('Erro ao excluir avaliação:', error);
         }
     };
 
