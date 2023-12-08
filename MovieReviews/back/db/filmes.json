@@ -28,5 +28,35 @@
     "titulo": "A Origem",
     "descricao": "Um ladrão de ideias é contratado para realizar o inverso: plantar uma ideia na mente de alguém.",
     "imagemUrl": "https://i.pinimg.com/564x/3c/1d/3f/3c1d3f803b633f39006e8a45171e1f89.jpg"
+  },
+  {
+    "id": 6,
+    "titulo": "Cidade de Deus",
+    "descricao": "Dois garotos crescem em uma violenta favela do Rio de Janeiro e seguem diferentes caminhos: Um se torna fotógrafo, o outro um traficante.",
+    "imagemUrl": "https://i.pinimg.com/564x/6d/43/a7/6d43a79bc771e1c8bce4416743650b98.jpg"
+  },
+  {
+    "id": 7,
+    "titulo": "Pulp Fiction",
+    "descricao": "Uma série de histórias interconectadas sobre criminosos, gângsteres e outros personagens sombrios em Los Angeles.",
+    "imagemUrl": "https://i.pinimg.com/564x/f0/01/3c/f0013ca4a05245afde43e0eaa7d1a2ce.jpg"
+  },
+  {
+    "id": 8,
+    "titulo": "2001: Uma Odisseia no Espaço",
+    "descricao": "Um grupo de astronautas embarca em uma missão para Júpiter, onde esperam encontrar evidências de inteligência extraterrestre.",
+    "imagemUrl": "https://i.pinimg.com/564x/d1/df/4a/d1df4a27bc738b4d5dc74e6b23da5adb.jpg"
+  },
+  {
+    "id": 9,
+    "titulo": "O Regresso",
+    "descricao": "Um caçador de peles americano é atacado por um urso e deixado para morrer em uma floresta do Alasca. Ele deve lutar para sobreviver e voltar para casa.",
+    "imagemUrl": "https://i.pinimg.com/564x/10/87/b0/1087b0c8e4dc0acefd8ebdb0d7f207d3.jpg"
+  },
+  {
+    "id": 10,
+    "titulo": "Parasita",
+    "descricao": "Uma família pobre se infiltra na casa de uma família rica, mas seus planos são ameaçados por uma série de eventos inesperados.",
+    "imagemUrl": "https://i.pinimg.com/564x/be/cc/6c/becc6c78f1e32af334174ad70d3de2bb.jpg"
   }
 ]

@@ -3,8 +3,8 @@
     "id": 1,
     "userId": 1,
     "filmeId": "1",
-    "nota": "3",
-    "comentario": "curti mais ainda! serio mesmo! de verdade! ok!",
+    "nota": "1",
+    "comentario": "Curti!",
     "usuario": "Caio Duque"
   },
   {
@@ -12,7 +12,15 @@
     "userId": 2,
     "filmeId": "1",
     "nota": "5",
-    "comentario": "teste123",
+    "comentario": "Filme legal!",
+    "usuario": "Joaozinho das neves"
+  },
+  {
+    "id": 3,
+    "userId": 3,
+    "filmeId": "3",
+    "nota": "3",
+    "comentario": "Filme chato!",
     "usuario": "Joaozinho das neves"
   }
 ]

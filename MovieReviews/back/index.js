@@ -16,6 +16,10 @@ app.listen(3000, () => {
 
 const User = require('./model/User');
 
+
+
+//login
+
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
@@ -34,6 +38,11 @@ app.post('/login', async (req, res) => {
     }
     return res.status(409).send(`Usuario com email ${email} não existe. Considere criar uma conta!`);
 });
+
+
+
+//criação de usuário
+
 
 app.post('/create', async (req, res) => {
     const { username, email, password } = req.body;
@@ -57,11 +66,152 @@ app.post('/create', async (req, res) => {
     res.send(`Tudo certo usuario criado com sucesso.`);
 });
 
+
+
+
+function verificaToken(req, res, next) {
+    const authHeaders = req.headers['authorization'];
+    const token = authHeaders && authHeaders.split(' ')[1];
+
+    if (token == null) return res.status(401).send('Acesso Negado');
+
+    jwt.verify(token, process.env.TOKEN, (err) => {
+        if (err) return res.status(403).send('Token Inválido/Expirado');
+        next();
+    });
+}
+
+
+
+
+//meu perfil
+
+
+app.put('/update-password', verificaToken, async (req, res) => {
+    const { newPassword, password } = req.body;
+    const token = req.headers['authorization'].split(' ')[1];
+    const decoded = jwt.verify(token, process.env.TOKEN);
+
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuarios = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    const usuarioIndex = usuarios.findIndex((user) => user.id === decoded.id);
+
+    if (usuarioIndex === -1) {
+        return res.status(404).send('Usuário não encontrado.');
+    }
+
+    const passwordValidado = await bcrypt.compare(password, usuarios[usuarioIndex].password);
+
+    if (!passwordValidado) {
+        return res.status(403).send('Senha atual incorreta.');
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const newPasswordCrypt = await bcrypt.hash(newPassword, salt);
+
+    usuarios[usuarioIndex].password = newPasswordCrypt;
+
+    fs.writeFileSync(jsonPathUsuarios, JSON.stringify(usuarios, null, 2));
+
+    res.send('Senha atualizada com sucesso.');
+});
+
+
+
+
+app.post('/validate-password', verificaToken, async (req, res) => {
+    try {
+        const { password } = req.body;
+        const token = req.headers['authorization'].split(' ')[1];
+        const decoded = jwt.verify(token, process.env.TOKEN);
+
+        const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+        const usuarios = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+        const usuario = usuarios.find((user) => user.id === decoded.id);
+
+        if (!usuario) {
+            return res.status(404).send('Usuário não encontrado.');
+        }
+
+        const passwordValidado = await bcrypt.compare(password, usuario.password);
+
+        if (!passwordValidado) {
+            return res.status(403).send('Senha incorreta.');
+        }
+
+        res.send('Senha validada com sucesso.');
+    } catch (error) {
+        console.error('Erro na rota validate-password:', error);
+        res.status(500).send('Erro interno do servidor.');
+    }
+});
+
+
+
+
+app.put('/update-email', verificaToken, async (req, res) => {
+    const { newEmail, password } = req.body;
+    const token = req.headers['authorization'].split(' ')[1];
+    const decoded = jwt.verify(token, process.env.TOKEN);
+
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuarios = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    // Verifica se o novo email já está cadastrado para outro usuário
+    const emailExists = usuarios.some((user) => user.email === newEmail);
+
+    if (emailExists) {
+        return res.status(409).send(`O email ${newEmail} já está associado a outro usuário.`);
+    }
+
+    const usuarioIndex = usuarios.findIndex((user) => user.id === decoded.id);
+
+    if (usuarioIndex === -1) {
+        return res.status(404).send('Usuário não encontrado.');
+    }
+
+    const passwordValidado = await bcrypt.compare(password, usuarios[usuarioIndex].password);
+
+    if (!passwordValidado) {
+        return res.status(403).send('Senha atual incorreta.');
+    }
+
+    usuarios[usuarioIndex].email = newEmail;
+
+    fs.writeFileSync(jsonPathUsuarios, JSON.stringify(usuarios, null, 2));
+
+    res.send('Email atualizado com sucesso.');
+});
+
+
+
+
+
+
+
+
+
+
+
 app.get('/filmes', verificaToken, (req, res) => {
     const jsonPath = path.join(__dirname, '.', 'db', 'filmes.json');
     const filmes = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
     return res.json(filmes);
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/filmes/:param', verificaToken, (req, res) => {
     const jsonPath = path.join(__dirname, '.', 'db', 'filmes.json');
@@ -80,17 +230,6 @@ app.get('/filmes/:param', verificaToken, (req, res) => {
     return res.status(403).send(`Filme Não Encontrado!`);
 });
 
-function verificaToken(req, res, next) {
-    const authHeaders = req.headers['authorization'];
-    const token = authHeaders && authHeaders.split(' ')[1];
-
-    if (token == null) return res.status(401).send('Acesso Negado');
-
-    jwt.verify(token, process.env.TOKEN, (err) => {
-        if (err) return res.status(403).send('Token Inválido/Expirado');
-        next();
-    });
-}
 
 const Avaliacao = require('./model/Avaliacao');
 
@@ -204,94 +343,5 @@ app.delete('/avaliacoes/:avaliacaoId', verificaToken, (req, res) => {
     fs.writeFileSync(jsonPathAvaliacoes, JSON.stringify(avaliacoes, null, 2));
 
     res.send('Avaliação excluída com sucesso.');
-});
-
-app.put('/update-email', verificaToken, async (req, res) => {
-    const { newEmail, password } = req.body;
-    const token = req.headers['authorization'].split(' ')[1];
-    const decoded = jwt.verify(token, process.env.TOKEN);
-
-    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
-    const usuarios = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
-
-    const usuarioIndex = usuarios.findIndex((user) => user.id === decoded.id);
-
-    if (usuarioIndex === -1) {
-        return res.status(404).send('Usuário não encontrado.');
-    }
-
-    const passwordValidado = await bcrypt.compare(password, usuarios[usuarioIndex].password);
-
-    if (!passwordValidado) {
-        return res.status(403).send('Senha atual incorreta.');
-    }
-
-    usuarios[usuarioIndex].email = newEmail;
-
-    fs.writeFileSync(jsonPathUsuarios, JSON.stringify(usuarios, null, 2));
-
-    res.send('Email atualizado com sucesso.');
-});
-
-app.put('/update-password', verificaToken, async (req, res) => {
-    const { newPassword, password } = req.body;
-    const token = req.headers['authorization'].split(' ')[1];
-    const decoded = jwt.verify(token, process.env.TOKEN);
-
-    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
-    const usuarios = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
-
-    const usuarioIndex = usuarios.findIndex((user) => user.id === decoded.id);
-
-    if (usuarioIndex === -1) {
-        return res.status(404).send('Usuário não encontrado.');
-    }
-
-    const passwordValidado = await bcrypt.compare(password, usuarios[usuarioIndex].password);
-
-    if (!passwordValidado) {
-        return res.status(403).send('Senha atual incorreta.');
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const newPasswordCrypt = await bcrypt.hash(newPassword, salt);
-
-    usuarios[usuarioIndex].password = newPasswordCrypt;
-
-    fs.writeFileSync(jsonPathUsuarios, JSON.stringify(usuarios, null, 2));
-
-    res.send('Senha atualizada com sucesso.');
-});
-
-app.post('/validate-password', verificaToken, async (req, res) => {
-    try {
-        const { password } = req.body;
-        const token = req.headers['authorization'].split(' ')[1];
-        const decoded = jwt.verify(token, process.env.TOKEN);
-
-        console.log('Decoded ID:', decoded.id);
-
-        const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
-        const usuarios = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
-
-        const usuario = usuarios.find((user) => user.id === decoded.id);
-
-        console.log('Usuário encontrado:', usuario);
-
-        if (!usuario) {
-            return res.status(404).send('Usuário não encontrado.');
-        }
-
-        const passwordValidado = await bcrypt.compare(password, usuario.password);
-
-        if (!passwordValidado) {
-            return res.status(403).send('Senha incorreta.');
-        }
-
-        res.send('Senha validada com sucesso.');
-    } catch (error) {
-        console.error('Erro na rota validate-password:', error);
-        res.status(500).send('Erro interno do servidor.');
-    }
 });
 

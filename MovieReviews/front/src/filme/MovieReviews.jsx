@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import '../styles/MovieReviews.css';
 
 // Componente principal da página de avaliações de filmes
 export default function MovieReviews() {
-    // pegar o parâmetro de rota para obter o ID do filme
+    // Pegar o parâmetro de rota para obter o ID do filme
     const { id } = useParams();
 
     // Estados para armazenar informações sobre o filme, avaliações, etc.
@@ -42,23 +41,30 @@ export default function MovieReviews() {
         async function fetchMovieDetails() {
             try {
                 const token = sessionStorage.getItem('token');
-                let response;
 
-                // Verifica se o ID do filme é um número ou um título
-                if (!isNaN(id)) {
-                    response = await axios.get(`http://localhost:3000/filmes/${id}`, {
-                        headers: { 'Authorization': `Bearer ${token}` },
-                    });
+                // Verifica se o usuário está autenticado antes de fazer a solicitação
+                if (token) {
+                    let response;
+
+                    // Verifica se o ID do filme é um número ou um título
+                    if (!isNaN(id)) {
+                        response = await axios.get(`http://localhost:3000/filmes/${id}`, {
+                            headers: { 'Authorization': `Bearer ${token}` },
+                        });
+                    } else {
+                        response = await axios.get(`http://localhost:3000/filmes/titulo/${id}`, {
+                            headers: { 'Authorization': `Bearer ${token}` },
+                        });
+                    }
+
+                    // Atualiza o componente com os dados do filme
+                    setFilme(response.data);
+                    // Busca as avaliações do filme
+                    fetchAvaliacoes();
                 } else {
-                    response = await axios.get(`http://localhost:3000/filmes/titulo/${id}`, {
-                        headers: { 'Authorization': `Bearer ${token}` },
-                    });
+                    // Se o usuário não estiver autenticado, define o filme como null
+                    setFilme(null);
                 }
-
-                // Atualiza o componente com os dados do filme
-                setFilme(response.data);
-                // Busca as avaliações do filme
-                fetchAvaliacoes();
             } catch (error) {
                 console.error('Error fetching movie details:', error);
             } finally {
@@ -73,9 +79,14 @@ export default function MovieReviews() {
     // para pegar o ID do usuário atual ao montar o componente
     useEffect(() => {
         const token = sessionStorage.getItem('token');
-        const userId = JSON.parse(atob(token.split('.')[1])).id;
+        const userId = token ? JSON.parse(atob(token.split('.')[1])).id : null;
         setCurrentUser(userId);
     }, []);
+
+    // Se o token não for válido, exibe a mensagem 'Token Inválido'
+    if (!sessionStorage.getItem('token')) {
+        return <p>Token Inválido</p>;
+    }
 
     // Função para lidar com o envio de uma avaliação
     const handleSubmitAvaliacao = async (e) => {
@@ -187,7 +198,7 @@ export default function MovieReviews() {
 
     return (
         <div>
-            {}
+            {/* Navegação */}
             <nav>
                 <ul>
                     <li>
@@ -202,7 +213,7 @@ export default function MovieReviews() {
                 </ul>
             </nav>
             
-            {/* Dados do filme */}
+            {/* Dados filme */}
             <h2>{filme.titulo}</h2>
             <p>{filme.descricao}</p>
             <img src={filme.imagemUrl} alt={filme.titulo} />

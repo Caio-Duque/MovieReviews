@@ -3,12 +3,60 @@
     "id": 1,
     "username": "Caio Duque",
     "email": "caio1@gmail.com",
-    "password": "$2b$10$.xi32d9ThmoZlBrDWz3tmudBNYurqE572WHEI7QnGq1wlXKrN4zI."
+    "password": "$2b$10$aRCLlReBEoTBTGCGeguK5OD8dqbPPgtbY73aRbuGWbz/ZrmrqLdd."
   },
   {
     "id": 2,
     "username": "Joaozinho das neves",
     "email": "joao@teste.com",
     "password": "$2b$10$Z28o2It/nhBPLNa3utfBn.zUBnvjkW3OYQqm0QS4J3n5tSXuL4HZ6"
+  },
+  {
+    "id": 3,
+    "username": "João Silva",
+    "email": "teste1@email.com",
+    "password": "$2b$10$ptInfl8.k.xVo686mIyApOEEEz5gounV1gqh2eP1UUlZhMIL69gdq"
+  },
+  {
+    "id": 4,
+    "username": "Bernardo Correia",
+    "email": "teste2@email.com",
+    "password": "$2b$10$laBlK76oNMMBFGWYL2EXxuyTWz4aczj5dWIfQgrT7dx.vaMqh1m5a"
+  },
+  {
+    "id": 5,
+    "username": "José Santo",
+    "email": "teste3@email.com",
+    "password": "$2b$10$p6NngTHI7cl96OZ2i4sweeBS854W6HhV4cUTWGWrtGBZoZe7HXcXC"
+  },
+  {
+    "id": 6,
+    "username": "Guilherme Bastos",
+    "email": "teste4@email.com",
+    "password": "$2b$10$/uQr/KXVf.EjneG5sJJwoul9xUYDM/9Mo8snOcFwd9c/lj065UO16"
+  },
+  {
+    "id": 7,
+    "username": "Vitor de Souza",
+    "email": "teste5@email.com",
+    "password": "$2b$10$21U2O/3xMvtWwCGNJcl8W.NmHGxgN9uky4mpNNbmQ6UDK3bzUngKm"
+  },
+  {
+    "id": 8,
+    "username": "Karina Silva",
+    "email": "teste6@email.com",
+    "password": "$2b$10$jjKUaBzJ2lcr76QUHCATwu.lFigtKL0XlEz2VRh4AX68pH8kayOfS"
+  },
+  {
+    "id": 9,
+    "username": "Sarah Caroline",
+    "email": "teste7@email.com",
+    "password": "$2b$10$owvwjOWy5sguIr5Gt1u.dORt.vn4ugx4S1rVws08mbG99L4stpA9K"
+  },
+  {
+    "id": 10,
+    "username": "Vitoria Maria",
+    "email": "teste8@email.com",
+    "password": "$2b$10$njdBVo3FgVI3bjMa3ErOReeF070QRKn/WU0k3DxSfruRY0JgNJr1q"
   }
 ]
