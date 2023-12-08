@@ -1,26 +1,18 @@
 [
   {
-    "id": 1,
-    "userId": 1,
-    "filmeId": "1",
-    "nota": "1",
-    "comentario": "Curti!",
-    "usuario": "Caio Duque"
-  },
-  {
     "id": 2,
-    "userId": 2,
+    "userId": 4,
     "filmeId": "1",
-    "nota": "5",
-    "comentario": "Filme legal!",
-    "usuario": "Joaozinho das neves"
+    "nota": "3",
+    "comentario": "teste",
+    "usuario": "Bernardo Correia"
   },
   {
     "id": 3,
     "userId": 3,
-    "filmeId": "3",
+    "filmeId": "1",
     "nota": "3",
-    "comentario": "Filme chato!",
-    "usuario": "Joaozinho das neves"
+    "comentario": "nova nota",
+    "usuario": "João Silva"
   }
 ]
